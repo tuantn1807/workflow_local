@@ -21,6 +21,6 @@ jobs:
           for wf in workflows/*.json; do
             curl -X POST https://n8n.tuantran.io.vn/rest/workflows \
               -H "Content-Type: application/json" \
-              -H "X-N8N-API-KEY: ${{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0OTZkYzQxZS02ODIxLTRiZDMtOGFlYy1lZTViZjhhZGNiNWMiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzY0NTYxNzAxLCJleHAiOjE3NzIyOTgwMDB9.sydBKHleMQbR2ha9bZnyA8_BwDCWM3BH2XNeGzXVxg0 }}" \
+              -H "X-N8N-API-KEY: ${{ secrets.N8N_API_KEY }}" \
               --data @"$wf"
           done
