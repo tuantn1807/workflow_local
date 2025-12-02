@@ -1,0 +1,26 @@
+name: Deploy n8n Workflows
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate all workflow files
+        run: |
+          for file in workflows/*.json; do
+            jq empty "$file"
+          done
+
+      - name: Deploy workflows to n8n
+        run: |
+          for wf in workflows/*.json; do
+            curl -X POST https://n8n.tuantran.io.vn/rest/workflows \
+              -H "Content-Type: application/json" \
+              -H "X-N8N-API-KEY: ${{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0OTZkYzQxZS02ODIxLTRiZDMtOGFlYy1lZTViZjhhZGNiNWMiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzY0NTYxNzAxLCJleHAiOjE3NzIyOTgwMDB9.sydBKHleMQbR2ha9bZnyA8_BwDCWM3BH2XNeGzXVxg0 }}" \
+              --data @"$wf"
+          done
